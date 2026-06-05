@@ -5,9 +5,18 @@ export default function App() {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [playing, setPlaying] = useState(false);
 
-  const startMusic = async () => {
+  const toggleMusic = async () => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    if (playing) {
+      audio.pause();
+      setPlaying(false);
+      return;
+    }
+
     try {
-      await audioRef.current?.play();
+      await audio.play();
       setPlaying(true);
     } catch {
       console.log("El navegador bloqueó la reproducción automática.");
@@ -64,8 +73,8 @@ export default function App() {
 
         <p className="signature">Con todo mi amor,<br />Papá 🥰</p>
 
-        <button onClick={startMusic}>
-          {playing ? "Música sonando 🎵" : "Tocar música 🎵"}
+        <button onClick={toggleMusic}>
+          {playing ? "Pausar música ⏸️" : "Tocar música 🎵"}
         </button>
       </section>
     </main>
